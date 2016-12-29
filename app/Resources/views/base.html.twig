@@ -1,21 +1,55 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8"/>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="{{ description }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <title>{{ title }}</title>
 
-    <title>{% block title %}Welcome!{% endblock %}</title>
+    {# Add to homescreen for Chrome on Android #}
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="192x192" href="{{ asset('bundles/app/icon/android-desktop.png') }}">
 
-    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+    {# Add to homescreen for Safari on iOS #}
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="{{ title }}">
+    <link rel="apple-touch-icon-precomposed" href="{{ asset('bundles/app/icon/apple-touch-icon.png') }}">
+
+    {# Tile icon for Win8 (144x144 + tile color) #}
+    <meta name="msapplication-TileImage" content="{# TODO: images/touch/ms-touch-icon-144x144-precomposed.png #}">
+    <meta name="msapplication-TileColor" content="{# TODO: #3372DF #}">
+
+    {# Favicon #}
+    <link rel="icon" type="image/x-icon" href="{{ asset('bundles/app/icon/favicon.ico') }}">
 
     {% block stylesheets %}
-        {% stylesheets '@base_stylesheets' %}
+
+        {# Google Fonts #}
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet"
+              type="text/css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+
+        {# Vendor styles #}
+        <link rel="stylesheet" href="{{ asset('bundles/app/vendor/mdl/1.3.0/material.min.css') }}">
+
+        {# Project styles #}
+        {% stylesheets '@base_stylesheets' filter='cssrewrite' %}
         <link rel="stylesheet" href="{{ asset_url }}"/>
         {% endstylesheets %}
     {% endblock %}
 </head>
 <body>
-{% block body %}{% endblock %}
+{% block body %}
+{% endblock %}
+
 {% block javascripts %}
+
+    {# Vendor styles #}
+    <script src="{{ asset('bundles/app/vendor/mdl/1.3.0/material.min.js') }}"></script>
+
+    {# Project scripts #}
     {% javascripts '@base_scripts' %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}

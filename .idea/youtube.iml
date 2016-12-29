@@ -4,8 +4,10 @@
     <exclude-output />
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/var/cache" />
+      <excludeFolder url="file://$MODULE_DIR$/web/bundles" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="material" level="application" />
   </component>
 </module>

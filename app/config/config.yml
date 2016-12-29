@@ -70,10 +70,15 @@ swiftmailer:
     spool:     { type: memory }
 
 assetic:
+    debug: "%kernel.debug%"
+    use_controller: "%kernel.debug%"
+    bundles: []
+    filters:
+        cssrewrite: ~
     assets:
         base_stylesheets:
             inputs:
-                - '@AppBundle/Resources/public/css/*'
+                - 'bundles/app/css/*'
         base_scripts:
             inputs:
-                - '@AppBundle/Resources/public/js/*'
+                - 'bundles/app/js/*'
