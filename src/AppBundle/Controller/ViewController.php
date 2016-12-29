@@ -14,9 +14,7 @@ class ViewController extends Controller
      */
     public function indexAction(Request $request)
     {
-        return $this->render('view/index.html.twig', $this->getViewContext([
-            'title' => 'Login',
-        ]));
+        return $this->redirectToRoute('login');
     }
 
     /**
@@ -28,6 +26,18 @@ class ViewController extends Controller
     {
         return $this->render('view/demo.html.twig', $this->getViewContext([
             'title' => 'Demo',
+        ]));
+    }
+
+    /**
+     * @Sensio\Bundle\FrameworkExtraBundle\Configuration\Route("/login", name="login")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function loginAction(Request $request)
+    {
+        return $this->render('view/login.html.twig', $this->getViewContext([
+            'title' => 'Login',
         ]));
     }
 
