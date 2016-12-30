@@ -49,15 +49,21 @@
                 <div class="mdl-layout__header-row">
                     <span class="mdl-layout-title">{{ title }}</span>
                     <div class="mdl-layout-spacer"></div>
-                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
-                        <label class="mdl-button mdl-js-button mdl-button--icon" for="search">
-                            <i class="material-icons">search</i>
-                        </label>
-                        <div class="mdl-textfield__expandable-holder">
-                            <input class="mdl-textfield__input" type="text" id="search">
-                            <label class="mdl-textfield__label" for="search">Enter your query...</label>
+                    <form action="http://www.youtube.com/results" target="_blank"
+                          onsubmit="if (document.getElementById('search').value == '') return false;">
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
+                            <label class="mdl-button mdl-js-button mdl-button--icon" for="search">
+                                <i class="material-icons">search</i>
+                            </label>
+                            <div class="mdl-textfield__expandable-holder">
+                                <input id="search" name="search_query" class="mdl-textfield__input"
+                                       type="text" autocomplete="off">
+                                <label class="mdl-textfield__label" for="search">
+                                    <span>Enter your query...</span>
+                                </label>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </header>
         {% endblock %}
