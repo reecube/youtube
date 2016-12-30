@@ -53,6 +53,14 @@ class ViewController extends Controller
      */
     public function loginAction(Request $request)
     {
+        $service = $request->get('service');
+
+        $service = strtolower($service);
+
+        if ($service === 'youtube') {
+            return $this->redirect('/oauth/google/auth');
+        }
+
         return $this->render('view/login.html.twig', $this->getViewContext($request, [
             'page' => $this->getParsedPage(ViewNavigation::ID_PAGE_LOGIN),
         ]));
