@@ -53,7 +53,10 @@ abstract class BaseController extends Controller
             'navigation' => $parsedPages,
             'logoutUrl' => $this->generateUrl('logout'),
             'hasDrawer' => count($parsedPages) > 0,
-            'drawerHeader' => [
+        ];
+
+        if ($this->hasAccessForDrawer()) {
+            $context['drawerHeader'] = [
                 'background' => 'https://yt3.ggpht.com/5QtZhrMtUGEHds3xpeJnFYm_eq2OZ65DkAlVWPvywxKEKZhMUhjKeWLGCt3buIRHVDqGUYZ_dw=w2120-fcrop64=1,00005a57ffffa5a8-nd-c0xffffffff-rj-k-no',
                 'user' => [
                     'channel' => 'https://www.youtube.com/user/ReeCube',
@@ -61,8 +64,10 @@ abstract class BaseController extends Controller
                     'name' => 'Yves Riedener',
                     'mail' => 'account@gmail.com',
                 ],
-            ],
-        ];
+            ];
+        } else {
+            $context['hasDrawer'] = false;
+        }
 
         if ($custom === null) {
             return $context;
@@ -150,6 +155,16 @@ abstract class BaseController extends Controller
         }
 
         return Access::ACCESS_USER;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasAccessForDrawer()
+    {
+        $userAccess = $this->getUserAccess();
+
+        return Access::hasAccess(Access::ACCESS_USER + Access::ACCESS_ADMIN, $userAccess);
     }
 
     /**
