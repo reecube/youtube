@@ -34,7 +34,7 @@ class GoogleManager
 
         $youtube = new \Google_Service_YouTube($client);
 
-        var_dump($youtube->channels->listChannels('snippet')->count());
+        var_dump($youtube->channels->listChannels('contentDetails')->count());
         die;
     }
 }
