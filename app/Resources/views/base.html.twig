@@ -43,7 +43,7 @@
 <body>
 {% block body %}
     <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
-        <header class="demo-header mdl-layout__header mdl-color--grey-100 mdl-color-text--grey-600">
+        <header class="demo-header mdl-layout__header">
             <div class="mdl-layout__header-row">
                 <span class="mdl-layout-title">{{ title }}</span>
                 <div class="mdl-layout-spacer"></div>
@@ -58,7 +58,7 @@
                 </div>
             </div>
         </header>
-        <div class="demo-drawer mdl-layout__drawer mdl-color--blue-grey-900 mdl-color-text--blue-grey-50">
+        <div class="demo-drawer mdl-layout__drawer">
             <header class="demo-drawer-header"
                     style="background-image: url('{{ asset('bundles/app/img/dog.png') }}');">
                 <img src="{{ asset('bundles/app/img/user.jpg') }}" class="demo-avatar">
@@ -78,12 +78,12 @@
                 </div>
             </header>
             {% block navigation %}
-                <nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800">
+                <nav class="demo-navigation mdl-navigation">
                     {% include 'view/inc/navigation.html.twig' %}
                 </nav>
             {% endblock %}
         </div>
-        <main class="mdl-layout__content mdl-color--grey-100">
+        <main class="mdl-layout__content">
             <div class="mdl-grid demo-content">
                 {% block content %}
                 {% endblock %}
