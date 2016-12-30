@@ -61,21 +61,27 @@
                         </span>
                     {% endif %}
                     <div class="mdl-layout-spacer"></div>
-                    <form action="http://www.youtube.com/results" target="_blank"
-                          onsubmit="if (document.getElementById('search').value == '') return false;">
-                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
-                            <label class="mdl-button mdl-js-button mdl-button--icon" for="search">
-                                <i class="material-icons">search</i>
-                            </label>
-                            <div class="mdl-textfield__expandable-holder">
-                                <input id="search" name="search_query" class="mdl-textfield__input"
-                                       type="text" autocomplete="off">
-                                <label class="mdl-textfield__label" for="search">
-                                    <span>Enter your query...</span>
+                    {% block search %}
+                        <form action="http://www.youtube.com/results" target="_blank"
+                              onsubmit="if (document.getElementById('search').value == '') return false;">
+                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
+                                <label class="mdl-button mdl-js-button mdl-button--icon" for="search">
+                                    <i class="material-icons">search</i>
                                 </label>
+                                <div class="mdl-textfield__expandable-holder">
+                                    <input id="search" name="search_query" class="mdl-textfield__input"
+                                           type="text" autocomplete="off">
+                                    <label class="mdl-textfield__label" for="search">
+                                        <span>{{ 'base_enter_query' | trans }}</span>
+                                    </label>
+                                </div>
                             </div>
-                        </div>
-                    </form>
+                        </form>
+                        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    {% endblock %}
+                    {% block langNav %}
+                        {% include 'view/inc/lang-nav.html.twig' %}
+                    {% endblock %}
                 </div>
             </header>
         {% endblock %}

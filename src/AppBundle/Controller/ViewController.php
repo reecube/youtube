@@ -26,7 +26,7 @@ class ViewController extends Controller
     public function demoAction(Request $request)
     {
         return $this->render('view/demo.html.twig', $this->getViewContext([
-            'page' => ViewNavigation::PAGES[ViewNavigation::ID_PAGE_DEMO],
+            'page' => $this->getParsedPage(ViewNavigation::ID_PAGE_DEMO),
         ]));
     }
 
@@ -38,7 +38,7 @@ class ViewController extends Controller
     public function loginAction(Request $request)
     {
         return $this->render('view/login.html.twig', $this->getViewContext([
-            'page' => ViewNavigation::PAGES[ViewNavigation::ID_PAGE_LOGIN],
+            'page' => $this->getParsedPage(ViewNavigation::ID_PAGE_LOGIN),
         ]));
     }
 
@@ -50,7 +50,7 @@ class ViewController extends Controller
     public function favoritesAction(Request $request)
     {
         return $this->render('view/favorites.html.twig', $this->getViewContext([
-            'page' => ViewNavigation::PAGES[ViewNavigation::ID_PAGE_FAVORITES],
+            'page' => $this->getParsedPage(ViewNavigation::ID_PAGE_FAVORITES),
         ]));
     }
 
@@ -62,7 +62,7 @@ class ViewController extends Controller
     public function subscriptionsAction(Request $request)
     {
         return $this->render('view/subscriptions.html.twig', $this->getViewContext([
-            'page' => ViewNavigation::PAGES[ViewNavigation::ID_PAGE_SUBSCRIPTIONS],
+            'page' => $this->getParsedPage(ViewNavigation::ID_PAGE_SUBSCRIPTIONS),
         ]));
     }
 
@@ -74,7 +74,7 @@ class ViewController extends Controller
     public function videosAction(Request $request)
     {
         return $this->render('view/videos.html.twig', $this->getViewContext([
-            'page' => ViewNavigation::PAGES[ViewNavigation::ID_PAGE_VIDEOS],
+            'page' => $this->getParsedPage(ViewNavigation::ID_PAGE_VIDEOS),
         ]));
     }
 
@@ -103,6 +103,37 @@ class ViewController extends Controller
     }
 
     /**
+     * @param int $id
+     * @param mixed $default
+     * @return array
+     */
+    public function getParsedPage($id, $default = null)
+    {
+        $pages = ViewNavigation::PAGES;
+
+        if (!isset($pages[$id])) {
+            return $default;
+        }
+
+        return $this->parsePage($pages[$id]);
+    }
+
+    /**
+     * @param array $page
+     * @return array
+     */
+    protected function parsePage(array &$page)
+    {
+        if (!isset($page['isLink']) || !$page['isLink']) {
+            $page['href'] = $this->getSafeUrl($page['href']);
+        }
+
+        $page['title'] = $this->get('translator')->trans($page['title']);
+
+        return $page;
+    }
+
+    /**
      * @return array
      */
     public function getNavigation()
@@ -115,11 +146,7 @@ class ViewController extends Controller
         $pages = ViewNavigation::PAGES;
 
         foreach ($pages as $pageId => &$page) {
-            if (!isset($page['isLink']) || !$page['isLink']) {
-                $page['href'] = $this->getSafeUrl($page['href']);
-            }
-
-            $pages[$pageId] = $page;
+            $pages[$pageId] = $this->parsePage($page);
         }
 
         return $pages;
