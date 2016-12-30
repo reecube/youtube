@@ -21,14 +21,15 @@ class GoogleOAuthController extends BaseController
     {
         if ($this->isDevEnv()) {
             if ($request->isMethod('POST')) {
-                $code = [
+
+                // TODO: fix this one
+                $this->storeAccessToken($request, [
+
                     'username' => $request->get('username'),
                     'password' => $request->get('password'),
-                ];
-
-                return $this->redirectToRoute('oauth_google_redirect', [
-                    'code' => $code,
                 ]);
+
+                return $this->redirectToRoute('login');
             }
 
             $page = [
@@ -63,16 +64,11 @@ class GoogleOAuthController extends BaseController
         $code = $request->query->get('code');
 
         if ($code) {
-            var_dump($code);
-            die;
-
             $client = $this->container->get('happyr.google.api.client');
             $client->getGoogleClient()->setScopes($this->accessScope);
             $client->authenticate($code);
 
-            $accessToken = $client->getGoogleClient()->getAccessToken();
-
-            $request->getSession()->set(self::SESSION_KEY_GOOGLE_SESSION, $accessToken);
+            $this->storeAccessToken($request, $client->getGoogleClient()->getAccessToken());
 
             return $this->redirectToRoute('login');
         } else {
@@ -90,5 +86,16 @@ class GoogleOAuthController extends BaseController
 
             return $this->redirectToRoute('login');
         }
+    }
+
+    /**
+     * @param Request $request
+     * @param array $accessToken
+     */
+    protected function storeAccessToken(Request $request, array $accessToken) {
+        $request->getSession()->set(self::SESSION_KEY_GOOGLE_SESSION, $accessToken);
+
+        var_dump($accessToken);
+        die();
     }
 }
