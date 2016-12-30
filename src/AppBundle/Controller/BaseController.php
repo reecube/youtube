@@ -53,6 +53,15 @@ abstract class BaseController extends Controller
             'navigation' => $parsedPages,
             'logoutUrl' => $this->generateUrl('logout'),
             'hasDrawer' => count($parsedPages) > 0,
+            'drawerHeader' => [
+                'background' => 'https://yt3.ggpht.com/5QtZhrMtUGEHds3xpeJnFYm_eq2OZ65DkAlVWPvywxKEKZhMUhjKeWLGCt3buIRHVDqGUYZ_dw=w2120-fcrop64=1,00005a57ffffa5a8-nd-c0xffffffff-rj-k-no',
+                'user' => [
+                    'channel' => 'https://www.youtube.com/user/ReeCube',
+                    'image' => 'https://yt3.ggpht.com/-KltPnvdUo_0/AAAAAAAAAAI/AAAAAAAAAAA/s7TuEW1QsAs/s100-c-k-no-mo-rj-c0xffffff/photo.jpg',
+                    'name' => 'Yves Riedener',
+                    'mail' => 'account@gmail.com',
+                ],
+            ],
         ];
 
         if ($custom === null) {
