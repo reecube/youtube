@@ -114,8 +114,5 @@ class GoogleOAuthController extends BaseController
     protected function storeAccessToken(Request $request, array $accessToken)
     {
         $request->getSession()->set(self::SESSION_KEY_GOOGLE_SESSION, $accessToken);
-
-        var_dump($accessToken);
-        die();
     }
 }
