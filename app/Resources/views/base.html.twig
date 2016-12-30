@@ -32,7 +32,8 @@
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
 
         {# Vendor styles #}
-        <link rel="stylesheet" href="{{ asset('bundles/app/vendor/mdl/1.3.0/custom/material.red-deep_purple.min.css') }}">
+        <link rel="stylesheet"
+              href="{{ asset('bundles/app/vendor/mdl/1.3.0/custom/material.red-deep_purple.min.css') }}">
 
         {# Project styles #}
         {% stylesheets '@base_stylesheets' filter='cssrewrite' %}
@@ -42,53 +43,61 @@
 </head>
 <body>
 {% block body %}
-    <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
-        <header class="demo-header mdl-layout__header mdl-color--red-900">
-            <div class="mdl-layout__header-row">
-                <span class="mdl-layout-title">{{ title }}</span>
-                <div class="mdl-layout-spacer"></div>
-                <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
-                    <label class="mdl-button mdl-js-button mdl-button--icon" for="search">
-                        <i class="material-icons">search</i>
-                    </label>
-                    <div class="mdl-textfield__expandable-holder">
-                        <input class="mdl-textfield__input" type="text" id="search">
-                        <label class="mdl-textfield__label" for="search">Enter your query...</label>
+    <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-header{% if hasDrawer %} mdl-layout--fixed-drawer {% endif %}">
+        {% block header %}
+            <header class="demo-header mdl-layout__header mdl-color--red-900">
+                <div class="mdl-layout__header-row">
+                    <span class="mdl-layout-title">{{ title }}</span>
+                    <div class="mdl-layout-spacer"></div>
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
+                        <label class="mdl-button mdl-js-button mdl-button--icon" for="search">
+                            <i class="material-icons">search</i>
+                        </label>
+                        <div class="mdl-textfield__expandable-holder">
+                            <input class="mdl-textfield__input" type="text" id="search">
+                            <label class="mdl-textfield__label" for="search">Enter your query...</label>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </header>
-        <div class="demo-drawer mdl-layout__drawer mdl-color--grey-900 mdl-color-text--white">
-            <header class="demo-drawer-header"
-                    style="background-image: url('{{ asset('bundles/app/img/dog.png') }}');">
-                <img src="{{ asset('bundles/app/img/user.jpg') }}" class="demo-avatar">
-                <div class="demo-avatar-dropdown">
-                    <span>hello@example.com</span>
-                    <div class="mdl-layout-spacer"></div>
-                    <button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
-                        <i class="material-icons" role="presentation">arrow_drop_down</i>
-                        <span class="visuallyhidden">Account</span>
-                    </button>
-                    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
-                        <li class="mdl-menu__item">
-                            <i class="material-icons">exit_to_app</i>
-                            <span>Logout</span>
-                        </li>
-                    </ul>
-                </div>
             </header>
-            {% block navigation %}
-                <nav class="demo-navigation mdl-navigation">
-                    {% include 'view/inc/navigation.html.twig' %}
-                </nav>
-            {% endblock %}
-        </div>
-        <main class="mdl-layout__content">
-            <div class="mdl-grid demo-content">
-                {% block content %}
-                {% endblock %}
-            </div>
-        </main>
+        {% endblock %}
+        {% block drawer %}
+            {% if hasDrawer %}
+                <div class="demo-drawer mdl-layout__drawer mdl-color--grey-900 mdl-color-text--white">
+                    <header class="demo-drawer-header"
+                            style="background-image: url('{{ asset('bundles/app/img/dog.png') }}');">
+                        <img src="{{ asset('bundles/app/img/user.jpg') }}" class="demo-avatar">
+                        <div class="demo-avatar-dropdown">
+                            <span>hello@example.com</span>
+                            <div class="mdl-layout-spacer"></div>
+                            <button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+                                <i class="material-icons" role="presentation">arrow_drop_down</i>
+                                <span class="visuallyhidden">Account</span>
+                            </button>
+                            <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
+                                <li class="mdl-menu__item">
+                                    <i class="material-icons">exit_to_app</i>
+                                    <span>Logout</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </header>
+                    {% block navigation %}
+                        <nav class="demo-navigation mdl-navigation">
+                            {% include 'view/inc/navigation.html.twig' %}
+                        </nav>
+                    {% endblock %}
+                </div>
+            {% endif %}
+        {% endblock %}
+        {% block main %}
+            <main class="mdl-layout__content">
+                <div class="mdl-grid demo-content">
+                    {% block content %}
+                    {% endblock %}
+                </div>
+            </main>
+        {% endblock %}
     </div>
 {% endblock %}
 

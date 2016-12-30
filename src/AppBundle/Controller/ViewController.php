@@ -38,6 +38,8 @@ class ViewController extends Controller
     {
         return $this->render('view/login.html.twig', $this->getViewContext([
             'title' => 'Login',
+            // FIXME: 'hasDrawer' => false,
+            'hasDrawer' => $this->container->get('kernel')->isDebug(),
         ]));
     }
 
@@ -52,6 +54,7 @@ class ViewController extends Controller
             'title' => 'TODO',
             'description' => 'TODO: description',
             'navigation' => $this->getNavigation(),
+            'hasDrawer' => true,
         ], $custom);
     }
 
