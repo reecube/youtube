@@ -40,9 +40,9 @@ class ViewController extends BaseController
      */
     public function demoAction(Request $request)
     {
-        return $this->render('view/demo.html.twig', $this->getViewContext($request, [
-            'page' => $this->getParsedPage(Pages::ID_PAGE_DEMO),
-        ]));
+        $page = $this->getParsedPage(Pages::ID_PAGE_DEMO);
+
+        return $this->render('view/demo.html.twig', $this->getViewContext($request, $page));
     }
 
     /**
@@ -68,9 +68,9 @@ class ViewController extends BaseController
             return $this->redirectToRoute('oauth_google_auth');
         }
 
-        return $this->render('view/login.html.twig', $this->getViewContext($request, [
-            'page' => $this->getParsedPage(Pages::ID_PAGE_LOGIN),
-        ]));
+        $page = $this->getParsedPage(Pages::ID_PAGE_LOGIN);
+
+        return $this->render('view/login.html.twig', $this->getViewContext($request, $page));
     }
 
     /**
@@ -80,9 +80,9 @@ class ViewController extends BaseController
      */
     public function favoritesAction(Request $request)
     {
-        return $this->render('view/favorites.html.twig', $this->getViewContext($request, [
-            'page' => $this->getParsedPage(Pages::ID_PAGE_FAVORITES),
-        ]));
+        $page = $this->getParsedPage(Pages::ID_PAGE_FAVORITES);
+
+        return $this->render('view/favorites.html.twig', $this->getViewContext($request, $page));
     }
 
     /**
@@ -92,9 +92,9 @@ class ViewController extends BaseController
      */
     public function subscriptionsAction(Request $request)
     {
-        return $this->render('view/subscriptions.html.twig', $this->getViewContext($request, [
-            'page' => $this->getParsedPage(Pages::ID_PAGE_SUBSCRIPTIONS),
-        ]));
+        $page = $this->getParsedPage(Pages::ID_PAGE_SUBSCRIPTIONS);
+
+        return $this->render('view/subscriptions.html.twig', $this->getViewContext($request, $page));
     }
 
     /**
@@ -104,8 +104,8 @@ class ViewController extends BaseController
      */
     public function videosAction(Request $request)
     {
-        return $this->render('view/videos.html.twig', $this->getViewContext($request, [
-            'page' => $this->getParsedPage(Pages::ID_PAGE_VIDEOS),
-        ]));
+        $page = $this->getParsedPage(Pages::ID_PAGE_VIDEOS);
+
+        return $this->render('view/videos.html.twig', $this->getViewContext($request, $page));
     }
 }

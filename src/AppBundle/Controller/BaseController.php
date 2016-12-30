@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Enum\Access;
+use AppBundle\Enum\Languages;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Enum\Pages;
@@ -35,59 +36,47 @@ abstract class BaseController extends Controller
 
     /**
      * @param Request $request
-     * @param array $custom
+     * @param array $page
+     * @param array|null $custom
      * @return array
      */
-    public function getViewContext(Request $request, $custom = [])
+    public function getViewContext(Request $request, array $page, $custom = null)
     {
         $parsedPages = $this->getParsedPages();
 
-        return array_merge([
+        $context = [
             'base_dir' => realpath($this->getParameter('kernel.root_dir') . '/..') . DIRECTORY_SEPARATOR,
             'locale' => $request->getLocale(),
-            'languages' => $this->parseLanguages($this->getLanguages()),
+            'languages' => $this->getParsedLanguages(),
             'description' => 'TODO: description',
+            'page' => $page,
             'navigation' => $parsedPages,
             'hasDrawer' => count($parsedPages) > 0,
-        ], $custom);
+        ];
+
+        if ($custom === null) {
+            return $context;
+        }
+
+        return array_merge($context, $custom);
     }
 
     /**
-     * @param array $languages
      * @return array
      */
-    public function parseLanguages(array $languages)
+    public function getParsedLanguages()
     {
-        foreach ($languages as $languageIdx => $language) {
-            $language['url'] = $this->generateUrl('language', [
-                '_locale' => $language['locale'],
+        $languages = [];
+
+        foreach (Languages::LANGUAGES as $langId => $language) {
+            $language[Languages::KEY_URL] = $this->generateUrl('language', [
+                '_locale' => $language[Languages::KEY_LOCALE],
             ]);
 
-            $languages[$languageIdx] = $language;
+            $languages[$langId] = $language;
         }
 
         return $languages;
-    }
-
-    /**
-     * @return array
-     */
-    public function getLanguages()
-    {
-        return [
-            [
-                'locale' => 'de',
-                'title' => 'Deutsch',
-            ],
-            [
-                'locale' => 'fr',
-                'title' => 'Français',
-            ],
-            [
-                'locale' => 'en',
-                'title' => 'English',
-            ],
-        ];
     }
 
     /**
