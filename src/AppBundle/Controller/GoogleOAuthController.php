@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class GoogleOAuthController extends BaseController
 {
+    const ACCESS_TOKEN_FAKE_TOKEN = 'FAKE';
     const SESSION_KEY_GOOGLE_SESSION = 'session_google';
 
     protected $accessScope = [
@@ -19,49 +20,15 @@ class GoogleOAuthController extends BaseController
      */
     public function getAuthenticationCodeAction(Request $request)
     {
-        if ($this->isDevEnv()) {
-            if ($request->isMethod('POST')) {
-                $atobjectString = $request->get('atobject');
+        if ($this->isLocal()) {
+            $this->storeAccessToken($request, [
+                'access_token' => self::ACCESS_TOKEN_FAKE_TOKEN,
+                'token_type' => 'Bearer',
+                'expires_in' => 3600,
+                'created' => time(),
+            ]);
 
-                $accessToken = [
-                    'access_token' => $request->get('access_token'),
-                    'token_type' => $request->get('token_type'),
-                    'expires_in' => $request->get('expires_in'),
-                    'created' => $request->get('created'),
-                ];
-
-                if ($atobjectString !== null && is_string($atobjectString) && strlen($atobjectString) > 0) {
-                    try {
-                        $accessToken = json_decode($atobjectString, true);
-                    } catch (\Exception $ex) {
-                        $logger = $this->get('logger');
-
-                        $logger->addError($ex->getMessage());
-                    }
-                }
-
-                $this->storeAccessToken($request, $accessToken);
-
-                return $this->redirectToRoute('login');
-            }
-
-            $page = [
-                'href' => '/oauth/google/auth',
-                'icon' => 'vpn_key',
-                'title' => 'title_oauth_google_auth',
-                'isLink' => false,
-            ];
-
-            return $this->render('googleoauth/auth.html.twig', $this->getViewContext($request, [
-                'page' => $this->parsePage($page),
-                'form' => [
-                    'atobject' => '',
-                    'access_token' => '',
-                    'token_type' => 'Bearer',
-                    'expires_in' => 3600,
-                    'created' => '',
-                ],
-            ]));
+            return $this->redirectToRoute('login');
         }
 
         $client = $this->container->get('happyr.google.api.client');

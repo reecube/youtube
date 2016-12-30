@@ -11,43 +11,55 @@ abstract class ViewNavigation
     const ID_PAGE_VIDEOS = 5;
     const ID_LINK_YOUTUBE = 6;
 
+    const KEY_HREF = 'href';
+    const KEY_ICON = 'icon';
+    const KEY_TITLE = 'title';
+    const KEY_IS_LINK = 'isLink';
+    const KEY_ACCESS = 'access';
+
     const PAGES = [
         self::ID_PAGE_DEMO => [
-            'href' => '/demo',
-            'icon' => 'face',
-            'title' => 'title_demo',
-            'isLink' => false,
+            self::KEY_HREF => '/demo',
+            self::KEY_ICON => 'face',
+            self::KEY_TITLE => 'title_demo',
+            self::KEY_IS_LINK => false,
+            self::KEY_ACCESS => Access::ACCESS_HIDDEN,
         ],
         self::ID_PAGE_LOGIN => [
-            'href' => '/login',
-            'icon' => 'vpn_key',
-            'title' => 'title_login',
-            'isLink' => false,
+            self::KEY_HREF => '/login',
+            self::KEY_ICON => 'vpn_key',
+            self::KEY_TITLE => 'title_login',
+            self::KEY_IS_LINK => false,
+            self::KEY_ACCESS => Access::ACCESS_GUEST,
         ],
         self::ID_PAGE_FAVORITES => [
-            'href' => '/favorites',
-            'icon' => 'stars',
-            'title' => 'title_favorites',
-            'isLink' => false,
+            self::KEY_HREF => '/favorites',
+            self::KEY_ICON => 'stars',
+            self::KEY_TITLE => 'title_favorites',
+            self::KEY_IS_LINK => false,
+            self::KEY_ACCESS => Access::ACCESS_USER + Access::ACCESS_ADMIN,
         ],
         self::ID_PAGE_SUBSCRIPTIONS => [
-            'href' => '/subscriptions',
-            'icon' => 'subscriptions',
-            'title' => 'title_subscriptions',
-            'isLink' => false,
+            self::KEY_HREF => '/subscriptions',
+            self::KEY_ICON => 'subscriptions',
+            self::KEY_TITLE => 'title_subscriptions',
+            self::KEY_IS_LINK => false,
+            self::KEY_ACCESS => Access::ACCESS_USER + Access::ACCESS_ADMIN,
         ],
         self::ID_PAGE_VIDEOS => [
-            'href' => '/videos',
-            'icon' => 'movie',
-            'title' => 'title_videos',
-            'isLink' => false,
+            self::KEY_HREF => '/videos',
+            self::KEY_ICON => 'movie',
+            self::KEY_TITLE => 'title_videos',
+            self::KEY_IS_LINK => false,
+            self::KEY_ACCESS => Access::ACCESS_USER + Access::ACCESS_ADMIN,
         ],
         self::ID_LINK_YOUTUBE => [
-            'href' => 'https://www.youtube.com',
+            self::KEY_HREF => 'https://www.youtube.com',
             'target' => '_blank',
-            'icon' => 'play_circle_filled',
-            'title' => 'title_youtube',
-            'isLink' => true,
+            self::KEY_ICON => 'play_circle_filled',
+            self::KEY_TITLE => 'title_youtube',
+            self::KEY_IS_LINK => true,
+            self::KEY_ACCESS => Access::ACCESS_GUEST + Access::ACCESS_USER + Access::ACCESS_ADMIN,
         ],
     ];
 }

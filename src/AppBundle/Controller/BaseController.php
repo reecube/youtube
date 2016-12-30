@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Enum\Access;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Enum\ViewNavigation;
@@ -9,14 +10,19 @@ use AppBundle\Enum\ViewNavigation;
 abstract class BaseController extends Controller
 {
     /**
-     * @param Request $request
      * @return array|null
      */
-    public function getGoogleSession(Request $request)
+    public function getGoogleSession()
     {
-        $session = $request->getSession();
+        return $this->get('session')->get(GoogleOAuthController::SESSION_KEY_GOOGLE_SESSION);
+    }
 
-        return $session->get(GoogleOAuthController::SESSION_KEY_GOOGLE_SESSION);
+    /**
+     * @return bool
+     */
+    public function isLocal()
+    {
+        return $_SERVER['HTTP_HOST'] === 'youtube.reecube.local';
     }
 
     /**
@@ -106,13 +112,27 @@ abstract class BaseController extends Controller
      */
     protected function parsePage(array &$page)
     {
-        if (!isset($page['isLink']) || !$page['isLink']) {
-            $page['href'] = $this->getSafeUrl($page['href']);
+        if (!isset($page[ViewNavigation::KEY_IS_LINK]) || !$page[ViewNavigation::KEY_IS_LINK]) {
+            $page[ViewNavigation::KEY_HREF] = $this->getSafeUrl($page[ViewNavigation::KEY_HREF]);
         }
 
-        $page['title'] = $this->get('translator')->trans($page['title']);
+        $page[ViewNavigation::KEY_TITLE] = $this->get('translator')->trans($page[ViewNavigation::KEY_TITLE]);
 
         return $page;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUserAccess()
+    {
+        $googleSession = $this->getGoogleSession();
+
+        if ($googleSession === null) {
+            return Access::ACCESS_GUEST;
+        }
+
+        return Access::ACCESS_USER;
     }
 
     /**
@@ -120,15 +140,14 @@ abstract class BaseController extends Controller
      */
     public function getNavigation()
     {
-        // FIXME: check here for user permissions
-        if (!$this->isDevEnv()) {
-            return [];
-        }
+        $userAccess = $this->getUserAccess();
 
-        $pages = ViewNavigation::PAGES;
+        $pages = [];
 
-        foreach ($pages as $pageId => &$page) {
-            $pages[$pageId] = $this->parsePage($page);
+        foreach (ViewNavigation::PAGES as &$page) {
+            if (Access::hasAccess($page[ViewNavigation::KEY_ACCESS], $userAccess)) {
+                $pages[] = $this->parsePage($page);
+            }
         }
 
         return $pages;
