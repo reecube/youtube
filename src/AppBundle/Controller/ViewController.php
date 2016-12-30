@@ -19,13 +19,28 @@ class ViewController extends Controller
     }
 
     /**
+     * @Sensio\Bundle\FrameworkExtraBundle\Configuration\Route("/language/{_locale}", name="language",
+     *     requirements={
+     *         "_locale": "en|fr|de"
+     *     })
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function languageAction(Request $request)
+    {
+        return $this->json([
+            'success' => true,
+        ]);
+    }
+
+    /**
      * @Sensio\Bundle\FrameworkExtraBundle\Configuration\Route("/demo", name="demo")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function demoAction(Request $request)
     {
-        return $this->render('view/demo.html.twig', $this->getViewContext([
+        return $this->render('view/demo.html.twig', $this->getViewContext($request, [
             'page' => $this->getParsedPage(ViewNavigation::ID_PAGE_DEMO),
         ]));
     }
@@ -37,7 +52,7 @@ class ViewController extends Controller
      */
     public function loginAction(Request $request)
     {
-        return $this->render('view/login.html.twig', $this->getViewContext([
+        return $this->render('view/login.html.twig', $this->getViewContext($request, [
             'page' => $this->getParsedPage(ViewNavigation::ID_PAGE_LOGIN),
         ]));
     }
@@ -49,7 +64,7 @@ class ViewController extends Controller
      */
     public function favoritesAction(Request $request)
     {
-        return $this->render('view/favorites.html.twig', $this->getViewContext([
+        return $this->render('view/favorites.html.twig', $this->getViewContext($request, [
             'page' => $this->getParsedPage(ViewNavigation::ID_PAGE_FAVORITES),
         ]));
     }
@@ -61,7 +76,7 @@ class ViewController extends Controller
      */
     public function subscriptionsAction(Request $request)
     {
-        return $this->render('view/subscriptions.html.twig', $this->getViewContext([
+        return $this->render('view/subscriptions.html.twig', $this->getViewContext($request, [
             'page' => $this->getParsedPage(ViewNavigation::ID_PAGE_SUBSCRIPTIONS),
         ]));
     }
@@ -73,7 +88,7 @@ class ViewController extends Controller
      */
     public function videosAction(Request $request)
     {
-        return $this->render('view/videos.html.twig', $this->getViewContext([
+        return $this->render('view/videos.html.twig', $this->getViewContext($request, [
             'page' => $this->getParsedPage(ViewNavigation::ID_PAGE_VIDEOS),
         ]));
     }
@@ -87,19 +102,60 @@ class ViewController extends Controller
     }
 
     /**
+     * @param Request $request
      * @param array $custom
      * @return array
      */
-    public function getViewContext($custom = [])
+    public function getViewContext(Request $request, $custom = [])
     {
         $navigation = $this->getNavigation();
 
         return array_merge([
             'base_dir' => realpath($this->getParameter('kernel.root_dir') . '/..') . DIRECTORY_SEPARATOR,
+            'locale' => $request->getLocale(),
+            'languages' => $this->parseLanguages($this->getLanguages()),
             'description' => 'TODO: description',
             'navigation' => $navigation,
             'hasDrawer' => count($navigation) > 0,
         ], $custom);
+    }
+
+    /**
+     * @param array $languages
+     * @return array
+     */
+    public function parseLanguages(array $languages)
+    {
+        foreach ($languages as $languageIdx => $language) {
+            $language['url'] = $this->generateUrl('language', [
+                '_locale' => $language['locale'],
+            ]);
+
+            $languages[$languageIdx] = $language;
+        }
+
+        return $languages;
+    }
+
+    /**
+     * @return array
+     */
+    public function getLanguages()
+    {
+        return [
+            [
+                'locale' => 'de',
+                'title' => 'Deutsch',
+            ],
+            [
+                'locale' => 'fr',
+                'title' => 'Français',
+            ],
+            [
+                'locale' => 'en',
+                'title' => 'English',
+            ],
+        ];
     }
 
     /**

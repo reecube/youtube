@@ -5,16 +5,14 @@
 
 <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
     for="language-navigation-dropdown-trigger">
-    <li class="mdl-menu__item">
-        <i class="material-icons">check_box_outline_blank</i>
-        <span>Deutsch</span>
-    </li>
-    <li class="mdl-menu__item">
-        <i class="material-icons">check_box_outline_blank</i>
-        <span>Français</span>
-    </li>
-    <li class="mdl-menu__item">
-        <i class="material-icons">check_box</i>
-        <span>English</span>
-    </li>
+    {% for language in languages %}
+        <li class="mdl-menu__item js-lang-link" data-url="{{ language.url }}">
+            {% if language.locale == locale %}
+                <i class="material-icons">check_box</i>
+            {% else %}
+                <i class="material-icons">check_box_outline_blank</i>
+            {% endif %}
+            <span>{{ language.title }}</span>
+        </li>
+    {% endfor %}
 </ul>
