@@ -1,4 +1,6 @@
 base_enter_query: Enter your query...
+base_drawer_logout: Logout
+base_drawer_account: Account
 
 title_demo: Demo
 title_login: Login
