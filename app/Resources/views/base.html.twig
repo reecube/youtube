@@ -5,7 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="{{ description }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=no">
-    <title>{{ title }}</title>
+    {% if page is defined and page.title is defined %}
+        <title>{{ page.title }}</title>
+    {% endif %}
 
     {# Add to homescreen for Chrome on Android #}
     <meta name="mobile-web-app-capable" content="yes">
@@ -14,7 +16,9 @@
     {# Add to homescreen for Safari on iOS #}
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="{{ title }}">
+    {% if page is defined and page.title is defined %}
+        <meta name="apple-mobile-web-app-title" content="{{ page.title }}">
+    {% endif %}
     <link rel="apple-touch-icon-precomposed" href="{{ asset('bundles/app/icon/apple-touch-icon.png') }}">
 
     {# Tile icon for Win8 (144x144 + tile color) #}
@@ -47,7 +51,15 @@
         {% block header %}
             <header class="demo-header mdl-layout__header mdl-color--red-900">
                 <div class="mdl-layout__header-row">
-                    <span class="mdl-layout-title">{{ title }}</span>
+                    {% if page is defined and page.icon is defined %}
+                        <i class="material-icons">{{ page.icon }}</i>
+                        <span>&nbsp;</span>
+                    {% endif %}
+                    {% if page is defined and page.title is defined %}
+                        <span class="mdl-layout-title">
+                            <span>{{ page.title }}</span>
+                        </span>
+                    {% endif %}
                     <div class="mdl-layout-spacer"></div>
                     <form action="http://www.youtube.com/results" target="_blank"
                           onsubmit="if (document.getElementById('search').value == '') return false;">

@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Enum\ViewNavigation;
 
 class ViewController extends Controller
 {
@@ -25,7 +26,7 @@ class ViewController extends Controller
     public function demoAction(Request $request)
     {
         return $this->render('view/demo.html.twig', $this->getViewContext([
-            'title' => 'Demo',
+            'page' => ViewNavigation::PAGES[ViewNavigation::ID_PAGE_DEMO],
         ]));
     }
 
@@ -37,7 +38,7 @@ class ViewController extends Controller
     public function loginAction(Request $request)
     {
         return $this->render('view/login.html.twig', $this->getViewContext([
-            'title' => 'Login',
+            'page' => ViewNavigation::PAGES[ViewNavigation::ID_PAGE_LOGIN],
         ]));
     }
 
@@ -49,7 +50,7 @@ class ViewController extends Controller
     public function favoritesAction(Request $request)
     {
         return $this->render('view/favorites.html.twig', $this->getViewContext([
-            'title' => 'Favorites',
+            'page' => ViewNavigation::PAGES[ViewNavigation::ID_PAGE_FAVORITES],
         ]));
     }
 
@@ -61,7 +62,7 @@ class ViewController extends Controller
     public function subscriptionsAction(Request $request)
     {
         return $this->render('view/subscriptions.html.twig', $this->getViewContext([
-            'title' => 'Subscriptions',
+            'page' => ViewNavigation::PAGES[ViewNavigation::ID_PAGE_SUBSCRIPTIONS],
         ]));
     }
 
@@ -73,7 +74,7 @@ class ViewController extends Controller
     public function videosAction(Request $request)
     {
         return $this->render('view/videos.html.twig', $this->getViewContext([
-            'title' => 'Videos',
+            'page' => ViewNavigation::PAGES[ViewNavigation::ID_PAGE_VIDEOS],
         ]));
     }
 
@@ -95,7 +96,6 @@ class ViewController extends Controller
 
         return array_merge([
             'base_dir' => realpath($this->getParameter('kernel.root_dir') . '/..') . DIRECTORY_SEPARATOR,
-            'title' => 'TODO',
             'description' => 'TODO: description',
             'navigation' => $navigation,
             'hasDrawer' => count($navigation) > 0,
@@ -112,53 +112,38 @@ class ViewController extends Controller
             return [];
         }
 
-        return [
-            [
-                'href' => $this->getSafeUrl('/demo'),
-                'icon' => 'face',
-                'title' => 'Demo',
-            ],
-            [
-                'href' => $this->getSafeUrl('/'),
-                'icon' => 'vpn_key',
-                'title' => 'Login',
-            ],
-            [
-                'href' => $this->getSafeUrl('/favorites'),
-                'icon' => 'stars',
-                'title' => 'Favorites',
-            ],
-            [
-                'href' => $this->getSafeUrl('/subscriptions'),
-                'icon' => 'subscriptions',
-                'title' => 'Subscriptions',
-            ],
-            [
-                'href' => $this->getSafeUrl('/videos'),
-                'icon' => 'movie',
-                'title' => 'Videos',
-            ],
-            [
-                'href' => 'https://www.youtube.com',
-                'target' => '_blank',
-                'icon' => 'play_circle_filled',
-                'title' => 'YouTube',
-            ],
-        ];
+        $pages = ViewNavigation::PAGES;
+
+        foreach ($pages as $pageId => &$page) {
+            if (!isset($page['isLink']) || !$page['isLink']) {
+                $page['href'] = $this->getSafeUrl($page['href']);
+            }
+
+            $pages[$pageId] = $page;
+        }
+
+        return $pages;
     }
 
     /**
      * @param string $url
+     * @param bool $absoluteUrl
      * @return string
      */
-    public function getSafeUrl($url)
+    public function getSafeUrl($url, $absoluteUrl = true)
     {
+        if ($absoluteUrl && strpos($url, '/') !== 0) {
+            return $url;
+        }
+
         try {
             return $this->generateUrl($url);
         } catch (\Exception $ex) {
-            if ($this->isDevEnv()) {
+
+            if ($absoluteUrl && $this->isDevEnv()) {
                 $url = '/app_dev.php' . $url;
             }
+
             return $url;
         }
     }
