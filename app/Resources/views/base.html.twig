@@ -62,7 +62,8 @@
                     {% endif %}
                     <div class="mdl-layout-spacer"></div>
                     {% block search %}
-                        <form action="http://www.youtube.com/results" target="_blank"
+                        <form class="mdl-cell--hide-phone"
+                              action="http://www.youtube.com/results" target="_blank"
                               onsubmit="if (document.getElementById('search').value == '') return false;">
                             <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
                                 <label class="mdl-button mdl-js-button mdl-button--icon" for="search">
@@ -76,8 +77,8 @@
                                     </label>
                                 </div>
                             </div>
+                            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                         </form>
-                        <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
                     {% endblock %}
                     {% block langNav %}
                         {% include 'view/inc/lang-nav.html.twig' %}
