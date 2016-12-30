@@ -106,11 +106,11 @@ class ViewController extends BaseController
             return $result;
         }
 
-        $googleSession = $this->getGoogleSession();
+        //$googleSession = $this->getGoogleSession();
 
-        $googleManager = new GoogleManager($this->container->get('happyr.google.api.client'), $googleSession);
+        //$googleManager = new GoogleManager($this->container->get('happyr.google.api.client'), $googleSession);
 
-        $googleManager->helloWorld();
+        //$googleManager->helloWorld();
 
         return $this->render('view/favorites.html.twig', $this->getViewContext($request, $page));
     }

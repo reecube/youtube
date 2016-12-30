@@ -69,4 +69,13 @@ class GoogleOAuthController extends BaseController
             return $this->redirectToRoute('login');
         }
     }
+
+    /**
+     * @Sensio\Bundle\FrameworkExtraBundle\Configuration\Route("/oauth/google/accessToken", name="oauth_google_access_token")
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function getAccessTokenAction()
+    {
+        return $this->json($this->getGoogleSession());
+    }
 }
