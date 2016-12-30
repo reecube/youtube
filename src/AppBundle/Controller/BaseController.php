@@ -143,6 +143,21 @@ abstract class BaseController extends Controller
     }
 
     /**
+     * @param array $page
+     * @return null|\Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function checkAccessOrRedirect(array $page)
+    {
+        $userAccess = $this->getUserAccess();
+
+        if (!Access::hasAccess($page[Pages::KEY_ACCESS], $userAccess)) {
+            return $this->redirectToRoute('login', [], 403);
+        }
+
+        return null;
+    }
+
+    /**
      * @param string $url
      * @param bool $absoluteUrl
      * @return string

@@ -42,6 +42,12 @@ class ViewController extends BaseController
     {
         $page = $this->getParsedPage(Pages::ID_PAGE_DEMO);
 
+        $result = $this->checkAccessOrRedirect($page);
+
+        if ($result !== null) {
+            return $result;
+        }
+
         return $this->render('view/demo.html.twig', $this->getViewContext($request, $page));
     }
 
@@ -82,6 +88,12 @@ class ViewController extends BaseController
     {
         $page = $this->getParsedPage(Pages::ID_PAGE_FAVORITES);
 
+        $result = $this->checkAccessOrRedirect($page);
+
+        if ($result !== null) {
+            return $result;
+        }
+
         return $this->render('view/favorites.html.twig', $this->getViewContext($request, $page));
     }
 
@@ -94,6 +106,12 @@ class ViewController extends BaseController
     {
         $page = $this->getParsedPage(Pages::ID_PAGE_SUBSCRIPTIONS);
 
+        $result = $this->checkAccessOrRedirect($page);
+
+        if ($result !== null) {
+            return $result;
+        }
+
         return $this->render('view/subscriptions.html.twig', $this->getViewContext($request, $page));
     }
 
@@ -105,6 +123,12 @@ class ViewController extends BaseController
     public function videosAction(Request $request)
     {
         $page = $this->getParsedPage(Pages::ID_PAGE_VIDEOS);
+
+        $result = $this->checkAccessOrRedirect($page);
+
+        if ($result !== null) {
+            return $result;
+        }
 
         return $this->render('view/videos.html.twig', $this->getViewContext($request, $page));
     }
