@@ -39,8 +39,16 @@ class ViewController extends Controller
         return $this->render('view/login.html.twig', $this->getViewContext([
             'title' => 'Login',
             // FIXME: 'hasDrawer' => false,
-            'hasDrawer' => $this->container->get('kernel')->isDebug(),
+            'hasDrawer' => $this->isDevEnv(),
         ]));
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDevEnv()
+    {
+        return $this->container->get('kernel')->getEnvironment() === 'dev';
     }
 
     /**
@@ -107,7 +115,7 @@ class ViewController extends Controller
         try {
             return $this->generateUrl($url);
         } catch (\Exception $ex) {
-            if ($this->container->get('kernel')->isDebug()) {
+            if ($this->isDevEnv()) {
                 $url = '/app_dev.php' . $url;
             }
             return $url;
