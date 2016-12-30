@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Manager\GoogleManager;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Enum\Pages;
 
@@ -104,6 +105,12 @@ class ViewController extends BaseController
         if ($result !== null) {
             return $result;
         }
+
+        $googleSession = $this->getGoogleSession();
+
+        $googleManager = new GoogleManager($this->container->get('happyr.google.api.client'), $googleSession);
+
+        $googleManager->helloWorld();
 
         return $this->render('view/favorites.html.twig', $this->getViewContext($request, $page));
     }

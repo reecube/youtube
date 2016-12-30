@@ -2,16 +2,13 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Manager\GoogleManager;
 use Symfony\Component\HttpFoundation\Request;
 
 class GoogleOAuthController extends BaseController
 {
     const ACCESS_TOKEN_FAKE_TOKEN = 'FAKE';
     const SESSION_KEY_GOOGLE_SESSION = 'session_google';
-
-    protected $accessScope = [
-        \Google_Service_YouTube::YOUTUBE,
-    ];
 
     /**
      * @Sensio\Bundle\FrameworkExtraBundle\Configuration\Route("/oauth/google/auth", name="oauth_google_auth")
@@ -33,7 +30,7 @@ class GoogleOAuthController extends BaseController
         $client = $this->container->get('happyr.google.api.client');
 
         // Determine the level of access your application needs
-        $client->getGoogleClient()->setScopes($this->accessScope);
+        $client->getGoogleClient()->setScopes(GoogleManager::ACCESS_SCOPE);
 
         // Send the user to complete their part of the OAuth
         return $this->redirect($client->createAuthUrl());
@@ -50,7 +47,7 @@ class GoogleOAuthController extends BaseController
 
         if ($code) {
             $client = $this->container->get('happyr.google.api.client');
-            $client->getGoogleClient()->setScopes($this->accessScope);
+            $client->getGoogleClient()->setScopes(GoogleManager::ACCESS_SCOPE);
             $client->authenticate($code);
 
             $this->setAccessToken($client->getGoogleClient()->getAccessToken());
