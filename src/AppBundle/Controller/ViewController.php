@@ -38,8 +38,6 @@ class ViewController extends Controller
     {
         return $this->render('view/login.html.twig', $this->getViewContext([
             'title' => 'Login',
-            // FIXME: 'hasDrawer' => false,
-            'hasDrawer' => $this->isDevEnv(),
         ]));
     }
 
@@ -57,12 +55,14 @@ class ViewController extends Controller
      */
     public function getViewContext($custom = [])
     {
+        $navigation = $this->getNavigation();
+
         return array_merge([
             'base_dir' => realpath($this->getParameter('kernel.root_dir') . '/..') . DIRECTORY_SEPARATOR,
             'title' => 'TODO',
             'description' => 'TODO: description',
-            'navigation' => $this->getNavigation(),
-            'hasDrawer' => true,
+            'navigation' => $navigation,
+            'hasDrawer' => count($navigation) > 0,
         ], $custom);
     }
 
@@ -71,6 +71,11 @@ class ViewController extends Controller
      */
     public function getNavigation()
     {
+        // FIXME: check here for user permissions
+        if (!$this->isDevEnv()) {
+            return [];
+        }
+
         return [
             [
                 'href' => $this->getSafeUrl('/demo'),
