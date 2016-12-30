@@ -68,35 +68,20 @@ html, body {
     width: 100%;
 }
 
-.demo-navigation {
-    flex-grow: 1;
-}
-
-.demo-layout .demo-navigation .mdl-navigation__link {
-    display: flex !important;
-    flex-direction: row;
-    align-items: center;
-    color: rgba(255, 255, 255, 0.56);
-    font-weight: 500;
-}
-
 .demo-layout .demo-navigation .mdl-navigation__link:hover {
-    background-color: #00BCD4;
-    color: #37474F;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
 }
 
 .demo-navigation .mdl-navigation__link .material-icons {
     font-size: 24px;
-    color: rgba(255, 255, 255, 0.56);
-    margin-right: 32px;
+    color: rgba(255, 255, 255, 0.75);
+    margin-right: 16px;
 }
 
 .demo-content {
-    max-width: 1080px;
-}
-
-.demo-charts {
-    align-items: center;
+    max-width: 1024px;
+    box-sizing: border-box;
 }
 
 .demo-chart:nth-child(1) {
