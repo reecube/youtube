@@ -51,6 +51,7 @@ abstract class BaseController extends Controller
             'description' => 'TODO: description',
             'page' => $page,
             'navigation' => $parsedPages,
+            'logoutUrl' => $this->generateUrl('logout'),
             'hasDrawer' => count($parsedPages) > 0,
         ];
 
@@ -178,5 +179,20 @@ abstract class BaseController extends Controller
 
             return $url;
         }
+    }
+
+    /**
+     * @param null|array $accessToken
+     */
+    protected function setAccessToken($accessToken = null)
+    {
+        $session = $this->get('session');
+
+        if ($accessToken === null) {
+            $session->clear();
+            return;
+        }
+
+        $session->set(GoogleOAuthController::SESSION_KEY_GOOGLE_SESSION, $accessToken);
     }
 }

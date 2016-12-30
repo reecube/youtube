@@ -15,13 +15,12 @@ class GoogleOAuthController extends BaseController
 
     /**
      * @Sensio\Bundle\FrameworkExtraBundle\Configuration\Route("/oauth/google/auth", name="oauth_google_auth")
-     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function getAuthenticationCodeAction(Request $request)
+    public function getAuthenticationCodeAction()
     {
         if ($this->isLocal()) {
-            $this->storeAccessToken($request, [
+            $this->setAccessToken([
                 'access_token' => self::ACCESS_TOKEN_FAKE_TOKEN,
                 'token_type' => 'Bearer',
                 'expires_in' => 3600,
@@ -54,7 +53,7 @@ class GoogleOAuthController extends BaseController
             $client->getGoogleClient()->setScopes($this->accessScope);
             $client->authenticate($code);
 
-            $this->storeAccessToken($request, $client->getGoogleClient()->getAccessToken());
+            $this->setAccessToken($client->getGoogleClient()->getAccessToken());
 
             return $this->redirectToRoute('login');
         } else {
@@ -72,14 +71,5 @@ class GoogleOAuthController extends BaseController
 
             return $this->redirectToRoute('login');
         }
-    }
-
-    /**
-     * @param Request $request
-     * @param array $accessToken
-     */
-    protected function storeAccessToken(Request $request, array $accessToken)
-    {
-        $request->getSession()->set(self::SESSION_KEY_GOOGLE_SESSION, $accessToken);
     }
 }

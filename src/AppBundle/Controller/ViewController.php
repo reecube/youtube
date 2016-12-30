@@ -80,6 +80,17 @@ class ViewController extends BaseController
     }
 
     /**
+     * @Sensio\Bundle\FrameworkExtraBundle\Configuration\Route("/logout", name="logout")
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function logoutAction()
+    {
+        $this->setAccessToken();
+
+        return $this->redirectToRoute('login');
+    }
+
+    /**
      * @Sensio\Bundle\FrameworkExtraBundle\Configuration\Route("/favorites", name="favorites")
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
