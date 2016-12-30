@@ -42,6 +42,42 @@ class ViewController extends Controller
     }
 
     /**
+     * @Sensio\Bundle\FrameworkExtraBundle\Configuration\Route("/favorites", name="favorites")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function favoritesAction(Request $request)
+    {
+        return $this->render('view/favorites.html.twig', $this->getViewContext([
+            'title' => 'Favorites',
+        ]));
+    }
+
+    /**
+     * @Sensio\Bundle\FrameworkExtraBundle\Configuration\Route("/subscriptions", name="subscriptions")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function subscriptionsAction(Request $request)
+    {
+        return $this->render('view/subscriptions.html.twig', $this->getViewContext([
+            'title' => 'Subscriptions',
+        ]));
+    }
+
+    /**
+     * @Sensio\Bundle\FrameworkExtraBundle\Configuration\Route("/videos", name="videos")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function videosAction(Request $request)
+    {
+        return $this->render('view/videos.html.twig', $this->getViewContext([
+            'title' => 'Videos',
+        ]));
+    }
+
+    /**
      * @return bool
      */
     public function isDevEnv()
