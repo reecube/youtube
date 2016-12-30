@@ -10,10 +10,9 @@ class ViewController extends Controller
 {
     /**
      * @Sensio\Bundle\FrameworkExtraBundle\Configuration\Route("/", name="index")
-     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function indexAction(Request $request)
+    public function indexAction()
     {
         return $this->redirectToRoute('login');
     }
