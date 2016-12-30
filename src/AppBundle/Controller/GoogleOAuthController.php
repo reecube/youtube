@@ -21,13 +21,26 @@ class GoogleOAuthController extends BaseController
     {
         if ($this->isDevEnv()) {
             if ($request->isMethod('POST')) {
+                $atobjectString = $request->get('atobject');
 
-                // TODO: fix this one
-                $this->storeAccessToken($request, [
+                $accessToken = [
+                    'access_token' => $request->get('access_token'),
+                    'token_type' => $request->get('token_type'),
+                    'expires_in' => $request->get('expires_in'),
+                    'created' => $request->get('created'),
+                ];
 
-                    'username' => $request->get('username'),
-                    'password' => $request->get('password'),
-                ]);
+                if ($atobjectString !== null && is_string($atobjectString) && strlen($atobjectString) > 0) {
+                    try {
+                        $accessToken = json_decode($atobjectString, true);
+                    } catch (\Exception $ex) {
+                        $logger = $this->get('logger');
+
+                        $logger->addError($ex->getMessage());
+                    }
+                }
+
+                $this->storeAccessToken($request, $accessToken);
 
                 return $this->redirectToRoute('login');
             }
@@ -41,7 +54,13 @@ class GoogleOAuthController extends BaseController
 
             return $this->render('googleoauth/auth.html.twig', $this->getViewContext($request, [
                 'page' => $this->parsePage($page),
-                'oauthRedirectUrl' => $this->generateUrl('oauth_google_redirect'),
+                'form' => [
+                    'atobject' => '',
+                    'access_token' => '',
+                    'token_type' => 'Bearer',
+                    'expires_in' => 3600,
+                    'created' => '',
+                ],
             ]));
         }
 
@@ -92,7 +111,8 @@ class GoogleOAuthController extends BaseController
      * @param Request $request
      * @param array $accessToken
      */
-    protected function storeAccessToken(Request $request, array $accessToken) {
+    protected function storeAccessToken(Request $request, array $accessToken)
+    {
         $request->getSession()->set(self::SESSION_KEY_GOOGLE_SESSION, $accessToken);
 
         var_dump($accessToken);

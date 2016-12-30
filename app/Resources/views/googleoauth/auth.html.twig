@@ -7,28 +7,46 @@
             <div class="mdl-grid">
                 <div class="mdl-cell mdl-cell--12-col">
                     <div class="mdl-textfield mdl-textfield--full-width mdl-js-textfield mdl-textfield--floating-label">
-                        <input class="mdl-textfield__input" type="text" id="username" name="username">
-                        <label class="mdl-textfield__label" for="username">Username...</label>
+                        <input class="mdl-textfield__input" type="text" id="atobject" name="atobject"
+                               value="{{ form.atobject }}">
+                        <label class="mdl-textfield__label" for="atobject">TODO: atobject</label>
+                    </div>
+                </div>
+                <div class="mdl-cell mdl-cell--12-col">
+                    <p>... or ...</p>
+                </div>
+                <div class="mdl-cell mdl-cell--12-col">
+                    <div class="mdl-textfield mdl-textfield--full-width mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input" type="text" id="access_token" name="access_token"
+                               value="{{ form.access_token }}">
+                        <label class="mdl-textfield__label" for="access_token">TODO: access_token</label>
                     </div>
                 </div>
                 <div class="mdl-cell mdl-cell--12-col">
                     <div class="mdl-textfield mdl-textfield--full-width mdl-js-textfield mdl-textfield--floating-label">
-                        <input class="mdl-textfield__input" type="password" id="password" name="password">
-                        <label class="mdl-textfield__label" for="password">Password...</label>
+                        <input class="mdl-textfield__input" type="text" id="token_type" name="token_type"
+                               value="{{ form.token_type }}">
+                        <label class="mdl-textfield__label" for="token_type">TODO: token_type</label>
                     </div>
                 </div>
-            </div>
-            <div class="mdl-grid">
-                <div class="mdl-cell mdl-cell--6-col mdl-cell--12-col-tablet">
-                    <button class="mdl-color--grey-400 mdl-button mdl-textfield--full-width mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
-                            type="reset">
-                        <span>Reset</span>
-                    </button>
+                <div class="mdl-cell mdl-cell--12-col">
+                    <div class="mdl-textfield mdl-textfield--full-width mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input" type="number" id="expires_in" name="expires_in"
+                               value="{{ form.expires_in }}">
+                        <label class="mdl-textfield__label" for="expires_in">TODO: expires_in</label>
+                    </div>
                 </div>
-                <div class="mdl-cell mdl-cell--6-col mdl-cell--12-col-tablet">
+                <div class="mdl-cell mdl-cell--12-col">
+                    <div class="mdl-textfield mdl-textfield--full-width mdl-js-textfield mdl-textfield--floating-label">
+                        <input class="mdl-textfield__input" type="number" id="created" name="created"
+                               value="{{ form.created }}">
+                        <label class="mdl-textfield__label" for="created">TODO: created</label>
+                    </div>
+                </div>
+                <div class="mdl-cell mdl-cell--12-col">
                     <button class="mdl-color--green-900 mdl-button mdl-textfield--full-width mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored"
                             type="submit">
-                        <span>Login</span>
+                        <span>Send</span>
                     </button>
                 </div>
             </div>
