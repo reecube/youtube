@@ -151,7 +151,7 @@ abstract class BaseController extends Controller
         $userAccess = $this->getUserAccess();
 
         if (!Access::hasAccess($page[Pages::KEY_ACCESS], $userAccess)) {
-            return $this->redirectToRoute('login', [], 403);
+            return $this->redirectToRoute('login');
         }
 
         return null;
