@@ -1,0 +1,37 @@
+<div class="demo-drawer mdl-layout__drawer mdl-color--grey-900 mdl-color-text--white">
+    <header>
+        <a class="plf-image-header plf-drawer-header"
+           href="https://www.youtube.com/user/ReeCube" target="_blank"
+           style="background-image: url('https://yt3.ggpht.com/5QtZhrMtUGEHds3xpeJnFYm_eq2OZ65DkAlVWPvywxKEKZhMUhjKeWLGCt3buIRHVDqGUYZ_dw=w2120-fcrop64=1,00005a57ffffa5a8-nd-c0xffffffff-rj-k-no');">
+            <img class="plf-channel-icon"
+                 src="https://yt3.ggpht.com/-KltPnvdUo_0/AAAAAAAAAAI/AAAAAAAAAAA/s7TuEW1QsAs/s100-c-k-no-mo-rj-c0xffffff/photo.jpg">
+        </a>
+        <div class="plf-drawer-header">
+            <div class="demo-avatar-dropdown">
+                <a href="https://www.youtube.com/user/ReeCube" target="_blank"
+                   class="mdl-color-text--white" style="text-decoration: none;">
+                    <span>Yves Riedener</span>
+                    <small>account@gmail.com</small>
+                </a>
+                <div class="mdl-layout-spacer"></div>
+                <button id="accbtn"
+                        class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+                    <i class="material-icons" role="presentation">arrow_drop_down</i>
+                    <span class="visuallyhidden">Account</span>
+                </button>
+                <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+                    for="accbtn">
+                    <li class="mdl-menu__item">
+                        <i class="material-icons">exit_to_app</i>
+                        <span>Logout</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    {% block navigation %}
+        <nav class="demo-navigation mdl-navigation">
+            {% include 'view/inc/navigation.html.twig' %}
+        </nav>
+    {% endblock %}
+</div>

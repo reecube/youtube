@@ -49,82 +49,11 @@
 {% block body %}
     <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-header{% if hasDrawer %} mdl-layout--fixed-drawer {% endif %}">
         {% block header %}
-            <header class="demo-header mdl-layout__header mdl-color--red-900">
-                <div class="mdl-layout__header-row">
-                    {% if page is defined and page.icon is defined %}
-                        <i class="material-icons">{{ page.icon }}</i>
-                        <span>&nbsp;</span>
-                    {% endif %}
-                    {% if page is defined and page.title is defined %}
-                        <span class="mdl-layout-title">
-                            <span>{{ page.title }}</span>
-                        </span>
-                    {% endif %}
-                    <div class="mdl-layout-spacer"></div>
-                    {% block search %}
-                        <form class="mdl-cell--hide-phone"
-                              action="https://www.youtube.com/results" target="_blank"
-                              onsubmit="if (document.getElementById('search').value == '') return false;">
-                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
-                                <label class="mdl-button mdl-js-button mdl-button--icon" for="search">
-                                    <i class="material-icons">search</i>
-                                </label>
-                                <div class="mdl-textfield__expandable-holder">
-                                    <input id="search" name="search_query" class="mdl-textfield__input"
-                                           type="text" autocomplete="off">
-                                    <label class="mdl-textfield__label" for="search">
-                                        <span>{{ 'base_enter_query' | trans }}</span>
-                                    </label>
-                                </div>
-                            </div>
-                            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                        </form>
-                    {% endblock %}
-                    {% block langNav %}
-                        {% include 'view/inc/lang-nav.html.twig' %}
-                    {% endblock %}
-                </div>
-            </header>
+            {% include 'view/inc/header.html.twig' %}
         {% endblock %}
         {% block drawer %}
             {% if hasDrawer %}
-                <div class="demo-drawer mdl-layout__drawer mdl-color--grey-900 mdl-color-text--white">
-                    <header>
-                        <a class="plf-image-header plf-drawer-header"
-                           href="https://www.youtube.com/user/ReeCube" target="_blank"
-                           style="background-image: url('https://yt3.ggpht.com/5QtZhrMtUGEHds3xpeJnFYm_eq2OZ65DkAlVWPvywxKEKZhMUhjKeWLGCt3buIRHVDqGUYZ_dw=w2120-fcrop64=1,00005a57ffffa5a8-nd-c0xffffffff-rj-k-no');">
-                            <img class="plf-channel-icon"
-                                 src="https://yt3.ggpht.com/-KltPnvdUo_0/AAAAAAAAAAI/AAAAAAAAAAA/s7TuEW1QsAs/s100-c-k-no-mo-rj-c0xffffff/photo.jpg">
-                        </a>
-                        <div class="plf-drawer-header">
-                            <div class="demo-avatar-dropdown">
-                                <a href="https://www.youtube.com/user/ReeCube" target="_blank"
-                                   class="mdl-color-text--white" style="text-decoration: none;">
-                                    <span>Yves Riedener</span>
-                                    <small>account@gmail.com</small>
-                                </a>
-                                <div class="mdl-layout-spacer"></div>
-                                <button id="accbtn"
-                                        class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
-                                    <i class="material-icons" role="presentation">arrow_drop_down</i>
-                                    <span class="visuallyhidden">Account</span>
-                                </button>
-                                <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
-                                    for="accbtn">
-                                    <li class="mdl-menu__item">
-                                        <i class="material-icons">exit_to_app</i>
-                                        <span>Logout</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </header>
-                    {% block navigation %}
-                        <nav class="demo-navigation mdl-navigation">
-                            {% include 'view/inc/navigation.html.twig' %}
-                        </nav>
-                    {% endblock %}
-                </div>
+                {% include 'view/inc/drawer.html.twig' %}
             {% endif %}
         {% endblock %}
         {% block main %}

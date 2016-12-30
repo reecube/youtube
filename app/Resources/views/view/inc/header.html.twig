@@ -1,0 +1,36 @@
+<header class="demo-header mdl-layout__header mdl-color--red-900">
+    <div class="mdl-layout__header-row">
+        {% if page is defined and page.icon is defined %}
+            <i class="material-icons">{{ page.icon }}</i>
+            <span>&nbsp;</span>
+        {% endif %}
+        {% if page is defined and page.title is defined %}
+            <span class="mdl-layout-title">
+                <span>{{ page.title }}</span>
+            </span>
+        {% endif %}
+        <div class="mdl-layout-spacer"></div>
+        {% block search %}
+            <form class="mdl-cell--hide-phone"
+                  action="https://www.youtube.com/results" target="_blank"
+                  onsubmit="if (document.getElementById('search').value == '') return false;">
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
+                    <label class="mdl-button mdl-js-button mdl-button--icon" for="search">
+                        <i class="material-icons">search</i>
+                    </label>
+                    <div class="mdl-textfield__expandable-holder">
+                        <input id="search" name="search_query" class="mdl-textfield__input"
+                               type="text" autocomplete="off">
+                        <label class="mdl-textfield__label" for="search">
+                            <span>{{ 'base_enter_query' | trans }}</span>
+                        </label>
+                    </div>
+                </div>
+                <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            </form>
+        {% endblock %}
+        {% block langNav %}
+            {% include 'view/inc/lang-nav.html.twig' %}
+        {% endblock %}
+    </div>
+</header>
