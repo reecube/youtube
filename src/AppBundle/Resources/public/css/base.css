@@ -1,8 +1,12 @@
+* {
+    box-sizing: border-box;
+}
+
 .mdl-menu .material-icons {
     vertical-align: middle;
 }
 
-.plf-mdl-card__header {
+.plf-image-header {
     position: relative;
 
     padding: 16px;
@@ -13,6 +17,12 @@
 
     background: #333 center no-repeat;
     background-size: cover;
+}
+
+.plf-drawer-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
 }
 
 .plf-card-external-link {

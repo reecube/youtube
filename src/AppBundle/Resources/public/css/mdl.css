@@ -51,15 +51,6 @@ html, body {
     align-items: center;
 }
 
-.demo-drawer-header {
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: 16px;
-    height: 151px;
-}
-
 .demo-avatar-dropdown {
     display: flex;
     position: relative;
