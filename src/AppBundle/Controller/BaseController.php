@@ -5,7 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Enum\Access;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Enum\ViewNavigation;
+use AppBundle\Enum\Pages;
 
 abstract class BaseController extends Controller
 {
@@ -40,15 +40,15 @@ abstract class BaseController extends Controller
      */
     public function getViewContext(Request $request, $custom = [])
     {
-        $navigation = $this->getNavigation();
+        $parsedPages = $this->getParsedPages();
 
         return array_merge([
             'base_dir' => realpath($this->getParameter('kernel.root_dir') . '/..') . DIRECTORY_SEPARATOR,
             'locale' => $request->getLocale(),
             'languages' => $this->parseLanguages($this->getLanguages()),
             'description' => 'TODO: description',
-            'navigation' => $navigation,
-            'hasDrawer' => count($navigation) > 0,
+            'navigation' => $parsedPages,
+            'hasDrawer' => count($parsedPages) > 0,
         ], $custom);
     }
 
@@ -91,13 +91,31 @@ abstract class BaseController extends Controller
     }
 
     /**
+     * @return array
+     */
+    public function getParsedPages()
+    {
+        $userAccess = $this->getUserAccess();
+
+        $pages = [];
+
+        foreach (Pages::PAGES as &$page) {
+            if (Access::hasAccess($page[Pages::KEY_ACCESS], $userAccess)) {
+                $pages[] = $this->parsePage($page);
+            }
+        }
+
+        return $pages;
+    }
+
+    /**
      * @param int $id
      * @param mixed $default
      * @return array
      */
     public function getParsedPage($id, $default = null)
     {
-        $pages = ViewNavigation::PAGES;
+        $pages = Pages::PAGES;
 
         if (!isset($pages[$id])) {
             return $default;
@@ -112,11 +130,11 @@ abstract class BaseController extends Controller
      */
     protected function parsePage(array &$page)
     {
-        if (!isset($page[ViewNavigation::KEY_IS_LINK]) || !$page[ViewNavigation::KEY_IS_LINK]) {
-            $page[ViewNavigation::KEY_HREF] = $this->getSafeUrl($page[ViewNavigation::KEY_HREF]);
+        if (!isset($page[Pages::KEY_IS_LINK]) || !$page[Pages::KEY_IS_LINK]) {
+            $page[Pages::KEY_HREF] = $this->getSafeUrl($page[Pages::KEY_HREF]);
         }
 
-        $page[ViewNavigation::KEY_TITLE] = $this->get('translator')->trans($page[ViewNavigation::KEY_TITLE]);
+        $page[Pages::KEY_TITLE] = $this->get('translator')->trans($page[Pages::KEY_TITLE]);
 
         return $page;
     }
@@ -133,24 +151,6 @@ abstract class BaseController extends Controller
         }
 
         return Access::ACCESS_USER;
-    }
-
-    /**
-     * @return array
-     */
-    public function getNavigation()
-    {
-        $userAccess = $this->getUserAccess();
-
-        $pages = [];
-
-        foreach (ViewNavigation::PAGES as &$page) {
-            if (Access::hasAccess($page[ViewNavigation::KEY_ACCESS], $userAccess)) {
-                $pages[] = $this->parsePage($page);
-            }
-        }
-
-        return $pages;
     }
 
     /**

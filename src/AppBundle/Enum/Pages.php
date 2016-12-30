@@ -2,7 +2,7 @@
 
 namespace AppBundle\Enum;
 
-abstract class ViewNavigation
+abstract class Pages
 {
     const ID_PAGE_DEMO = 1;
     const ID_PAGE_LOGIN = 2;

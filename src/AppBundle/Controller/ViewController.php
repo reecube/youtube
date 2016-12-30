@@ -3,7 +3,7 @@
 namespace AppBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Enum\ViewNavigation;
+use AppBundle\Enum\Pages;
 
 class ViewController extends BaseController
 {
@@ -41,7 +41,7 @@ class ViewController extends BaseController
     public function demoAction(Request $request)
     {
         return $this->render('view/demo.html.twig', $this->getViewContext($request, [
-            'page' => $this->getParsedPage(ViewNavigation::ID_PAGE_DEMO),
+            'page' => $this->getParsedPage(Pages::ID_PAGE_DEMO),
         ]));
     }
 
@@ -52,7 +52,7 @@ class ViewController extends BaseController
      */
     public function loginAction(Request $request)
     {
-        $googleSession = $this->getGoogleSession($request);
+        $googleSession = $this->getGoogleSession();
 
         if ($googleSession !== null) {
 
@@ -69,7 +69,7 @@ class ViewController extends BaseController
         }
 
         return $this->render('view/login.html.twig', $this->getViewContext($request, [
-            'page' => $this->getParsedPage(ViewNavigation::ID_PAGE_LOGIN),
+            'page' => $this->getParsedPage(Pages::ID_PAGE_LOGIN),
         ]));
     }
 
@@ -81,7 +81,7 @@ class ViewController extends BaseController
     public function favoritesAction(Request $request)
     {
         return $this->render('view/favorites.html.twig', $this->getViewContext($request, [
-            'page' => $this->getParsedPage(ViewNavigation::ID_PAGE_FAVORITES),
+            'page' => $this->getParsedPage(Pages::ID_PAGE_FAVORITES),
         ]));
     }
 
@@ -93,7 +93,7 @@ class ViewController extends BaseController
     public function subscriptionsAction(Request $request)
     {
         return $this->render('view/subscriptions.html.twig', $this->getViewContext($request, [
-            'page' => $this->getParsedPage(ViewNavigation::ID_PAGE_SUBSCRIPTIONS),
+            'page' => $this->getParsedPage(Pages::ID_PAGE_SUBSCRIPTIONS),
         ]));
     }
 
@@ -105,7 +105,7 @@ class ViewController extends BaseController
     public function videosAction(Request $request)
     {
         return $this->render('view/videos.html.twig', $this->getViewContext($request, [
-            'page' => $this->getParsedPage(ViewNavigation::ID_PAGE_VIDEOS),
+            'page' => $this->getParsedPage(Pages::ID_PAGE_VIDEOS),
         ]));
     }
 }
