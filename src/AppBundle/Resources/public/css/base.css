@@ -7,8 +7,6 @@
 }
 
 .plf-image-header {
-    position: relative;
-
     padding: 16px;
 
     min-height: 200px;
@@ -23,6 +21,8 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+
+    padding: 16px;
 }
 
 .plf-card-external-link {
