@@ -53,7 +53,7 @@
 
                 return callAjax(link.getAttribute('data-url'), null, function (xmlhttp, result) {
                     if (!result || !result.success) {
-                        return console.error(xmlhttp);
+                        return console.error('Error', xmlhttp);
                     }
 
                     return location.reload(true);

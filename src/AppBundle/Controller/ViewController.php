@@ -28,8 +28,10 @@ class ViewController extends Controller
      */
     public function languageAction(Request $request)
     {
+        $_locale = $request->attributes->get('_locale');
+
         return $this->json([
-            'success' => true,
+            'success' => $_locale === $request->getLocale(),
         ]);
     }
 
