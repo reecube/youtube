@@ -1,3 +1,22 @@
 .material-icons {
     vertical-align: middle;
 }
+
+.plf-mdl-card__header {
+    position: relative;
+
+    padding: 16px;
+
+    min-height: 200px;
+
+    overflow: hidden;
+
+    background: #333 center no-repeat;
+    background-size: cover;
+}
+
+.plf-card-external-link {
+    float: right;
+
+    text-align: right;
+}
