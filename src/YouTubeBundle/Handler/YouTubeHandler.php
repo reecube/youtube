@@ -32,6 +32,10 @@ class YouTubeHandler
 
         $this->client->setAuthConfig($this->credentials->getGoogleApiOauth2JsonArray());
 
+        // This should return a refresh token
+        $this->client->setApprovalPrompt('force');
+        $this->client->setAccessType('offline');
+
         $this->client->addScope(Google_Service_YouTube::YOUTUBE);
     }
 
