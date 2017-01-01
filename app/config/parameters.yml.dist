@@ -19,10 +19,7 @@ parameters:
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
 
-    # happy_r_google_api
-    happy_r_google_api_application_name:     APPLICATION_NAME
-    happy_r_google_api_oauth2_client_id:     CLIENT_ID
-    happy_r_google_api_oauth2_client_secret: CLIENT_SECRET
-    happy_r_google_api_oauth2_redirect_uri:  REDIRECT_URI
-    happy_r_google_api_developer_key:        DEVELOPER_KEY
-    happy_r_google_api_site_name:            SITE_NAME
+    # google_api_credentials
+    google_api_application_name:     'APPLICATION_NAME'
+    google_api_developer_key:        'DEVELOPER_KEY'
+    google_api_oauth2_json:          '{}'

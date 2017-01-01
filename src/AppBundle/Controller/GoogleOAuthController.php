@@ -2,13 +2,30 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Manager\GoogleManager;
 use Symfony\Component\HttpFoundation\Request;
+use YouTubeBundle\Handler\YouTubeHandler;
+use YouTubeBundle\Model\GoogleApiCredentials;
 
 class GoogleOAuthController extends BaseController
 {
     const ACCESS_TOKEN_FAKE_TOKEN = 'FAKE';
     const SESSION_KEY_GOOGLE_SESSION = 'session_google';
+
+    /**
+     * @return GoogleApiCredentials
+     */
+    protected function getCredentials()
+    {
+        $credentials = new GoogleApiCredentials();
+
+        $credentials->setGoogleApiApplicationName($this->getParameter('google_api_application_name'));
+        $credentials->setGoogleApiDeveloperKey($this->getParameter('google_api_developer_key'));
+
+        $json = $this->getParameter('google_api_oauth2_json');
+        $credentials->setGoogleApiOauth2JsonArray(json_decode($json, true));
+
+        return $credentials;
+    }
 
     /**
      * @Sensio\Bundle\FrameworkExtraBundle\Configuration\Route("/oauth/google/auth", name="oauth_google_auth")
@@ -27,13 +44,10 @@ class GoogleOAuthController extends BaseController
             return $this->redirectToRoute('login');
         }
 
-        $client = $this->container->get('happyr.google.api.client');
-
-        // Determine the level of access your application needs
-        $client->getGoogleClient()->setScopes(GoogleManager::ACCESS_SCOPE);
+        $handler = new YouTubeHandler($this->getCredentials());
 
         // Send the user to complete their part of the OAuth
-        return $this->redirect($client->createAuthUrl());
+        return $this->redirect($handler->createAuthUrl());
     }
 
     /**
@@ -46,11 +60,11 @@ class GoogleOAuthController extends BaseController
         $code = $request->query->get('code');
 
         if ($code) {
-            $client = $this->container->get('happyr.google.api.client');
-            $client->getGoogleClient()->setScopes(GoogleManager::ACCESS_SCOPE);
-            $client->authenticate($code);
+            $handler = new YouTubeHandler($this->getCredentials());
 
-            $this->setAccessToken($client->getGoogleClient()->getAccessToken());
+            $accessToken = $handler->handleRedirectionCode($code);
+
+            $this->setAccessToken($accessToken);
 
             return $this->redirectToRoute('login');
         } else {
