@@ -8,8 +8,9 @@ use YouTubeBundle\Model\GoogleApiCredentials;
 
 class GoogleOAuthController extends BaseController
 {
-    const ACCESS_TOKEN_FAKE_TOKEN = 'FAKE';
     const SESSION_KEY_GOOGLE_SESSION = 'session_google';
+
+    const ACCESS_TOKEN_FAKE_TOKEN = 'FAKE';
 
     /**
      * @return GoogleApiCredentials
