@@ -20,9 +20,7 @@ class GoogleOAuthController extends BaseController
 
         $credentials->setGoogleApiApplicationName($this->getParameter('google_api_application_name'));
         $credentials->setGoogleApiDeveloperKey($this->getParameter('google_api_developer_key'));
-
-        $json = $this->getParameter('google_api_oauth2_json');
-        $credentials->setGoogleApiOauth2JsonArray(json_decode($json, true));
+        $credentials->setGoogleApiOauth2JsonArray($this->getParameter('google_api_oauth2_json'));
 
         return $credentials;
     }
@@ -33,7 +31,7 @@ class GoogleOAuthController extends BaseController
      */
     public function getAuthenticationCodeAction()
     {
-        if (true || $this->isLocal()) {
+        if ($this->isLocal()) {
             $this->setAccessToken([
                 'access_token' => self::ACCESS_TOKEN_FAKE_TOKEN,
                 'token_type' => 'Bearer',
