@@ -10,8 +10,6 @@ class GoogleOAuthController extends BaseController
 {
     const SESSION_KEY_GOOGLE_SESSION = 'session_google';
 
-    const ACCESS_TOKEN_FAKE_TOKEN = 'FAKE';
-
     /**
      * @return GoogleApiCredentials
      */
@@ -33,14 +31,7 @@ class GoogleOAuthController extends BaseController
     public function getAuthenticationCodeAction()
     {
         if ($this->isLocal()) {
-            $this->setAccessToken([
-                'access_token' => self::ACCESS_TOKEN_FAKE_TOKEN,
-                'token_type' => 'Bearer',
-                'expires_in' => 3600,
-                'created' => time(),
-            ]);
-
-            return $this->redirectToRoute('login');
+            return $this->redirectToRoute('session');
         }
 
         $handler = new YouTubeHandler($this->getCredentials());

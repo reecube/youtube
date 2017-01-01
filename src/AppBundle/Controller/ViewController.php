@@ -80,6 +80,8 @@ class ViewController extends BaseController
             }
         }
 
+        $googleSession = $this->getGoogleSession();
+
         return $this->render('view/session.html.twig', $this->getViewContext($request, [
             Pages::KEY_HREF => '/session',
             Pages::KEY_ICON => 'vpn_key',
@@ -87,7 +89,7 @@ class ViewController extends BaseController
             Pages::KEY_IS_LINK => false,
             Pages::KEY_ACCESS => Access::ACCESS_HIDDEN,
         ], [
-            'accessTokenJson' => json_encode($this->getGoogleSession()),
+            'accessTokenJson' => $googleSession === null ? '' : json_encode($googleSession),
         ]));
     }
 
