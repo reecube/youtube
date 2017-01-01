@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Enum\Access;
 use AppBundle\Manager\GoogleManager;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Enum\Pages;
@@ -50,6 +51,44 @@ class ViewController extends BaseController
         }
 
         return $this->render('view/demo.html.twig', $this->getViewContext($request, $page));
+    }
+
+    /**
+     * @Sensio\Bundle\FrameworkExtraBundle\Configuration\Route("/session", name="session")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function sessionAction(Request $request)
+    {
+        if ($request->isMethod('POST')) {
+            $accessToken = $request->get('accessToken', null);
+
+            if ($accessToken !== null) {
+                if (is_string($accessToken)) {
+                    try {
+                        $accessToken = json_decode($accessToken, true);
+                    } catch (\Exception $ex) {
+                        $this->get('logger')->error($ex->getMessage());
+                    }
+                }
+
+                if (is_array($accessToken)) {
+                    $this->setAccessToken($accessToken);
+
+                    return $this->redirectToRoute('login');
+                }
+            }
+        }
+
+        return $this->render('view/session.html.twig', $this->getViewContext($request, [
+            Pages::KEY_HREF => '/session',
+            Pages::KEY_ICON => 'vpn_key',
+            Pages::KEY_TITLE => 'Session',
+            Pages::KEY_IS_LINK => false,
+            Pages::KEY_ACCESS => Access::ACCESS_HIDDEN,
+        ], [
+            'accessTokenJson' => json_encode($this->getGoogleSession()),
+        ]));
     }
 
     /**
