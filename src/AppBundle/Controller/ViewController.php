@@ -3,9 +3,9 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Enum\Access;
-use AppBundle\Manager\GoogleManager;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Enum\Pages;
+use YouTubeBundle\Handler\YouTubeHandler;
 
 class ViewController extends BaseController
 {
@@ -103,7 +103,7 @@ class ViewController extends BaseController
      */
     public function loginAction(Request $request)
     {
-        $googleSession = $this->getGoogleSession();
+        $googleSession = $this->getGoogleSessionOrRedirect();
 
         if ($googleSession !== null) {
 
@@ -148,6 +148,14 @@ class ViewController extends BaseController
 
         if ($result !== null) {
             return $result;
+        }
+
+        $handler = new YouTubeHandler($this->getCredentials());
+
+        $valid = $handler->authorize($this->getGoogleSession());
+
+        if (!$valid) {
+            return $this->redirectToRoute('login');
         }
 
         //$googleSession = $this->getGoogleSession();

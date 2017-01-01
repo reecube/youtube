@@ -63,4 +63,31 @@ class YouTubeHandler
 
         return $accessToken;
     }
+
+    /**
+     * @param array $accessToken
+     * @return bool
+     */
+    public static function isAccessTokenValid(array $accessToken)
+    {
+        $tsCreated = $accessToken['created'];
+        $tsNow = time();
+
+        $timePassed = $tsNow - $tsCreated;
+
+        $expiresIn = $accessToken['expires_in'];
+
+        return $timePassed < $expiresIn;
+    }
+
+    /**
+     * @param array $accessToken
+     * @return bool
+     */
+    public function authorize(array $accessToken)
+    {
+        $this->client->setAccessToken($accessToken);
+
+        return self::isAccessTokenValid($accessToken);
+    }
 }
