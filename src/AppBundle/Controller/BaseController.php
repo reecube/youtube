@@ -7,6 +7,7 @@ use AppBundle\Enum\Languages;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Enum\Pages;
+use YouTubeBundle\Model\GoogleApiCredentials;
 
 abstract class BaseController extends Controller
 {
@@ -16,6 +17,20 @@ abstract class BaseController extends Controller
     public function getGoogleSession()
     {
         return $this->get('session')->get(GoogleOAuthController::SESSION_KEY_GOOGLE_SESSION);
+    }
+
+    /**
+     * @return GoogleApiCredentials
+     */
+    protected function getCredentials()
+    {
+        $credentials = new GoogleApiCredentials();
+
+        $credentials->setGoogleApiApplicationName($this->getParameter('google_api_application_name'));
+        $credentials->setGoogleApiDeveloperKey($this->getParameter('google_api_developer_key'));
+        $credentials->setGoogleApiOauth2JsonArray($this->getParameter('google_api_oauth2_json'));
+
+        return $credentials;
     }
 
     /**

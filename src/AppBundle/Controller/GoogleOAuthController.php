@@ -4,25 +4,10 @@ namespace AppBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use YouTubeBundle\Handler\YouTubeHandler;
-use YouTubeBundle\Model\GoogleApiCredentials;
 
 class GoogleOAuthController extends BaseController
 {
     const SESSION_KEY_GOOGLE_SESSION = 'session_google';
-
-    /**
-     * @return GoogleApiCredentials
-     */
-    protected function getCredentials()
-    {
-        $credentials = new GoogleApiCredentials();
-
-        $credentials->setGoogleApiApplicationName($this->getParameter('google_api_application_name'));
-        $credentials->setGoogleApiDeveloperKey($this->getParameter('google_api_developer_key'));
-        $credentials->setGoogleApiOauth2JsonArray($this->getParameter('google_api_oauth2_json'));
-
-        return $credentials;
-    }
 
     /**
      * @Sensio\Bundle\FrameworkExtraBundle\Configuration\Route("/oauth/google/auth", name="oauth_google_auth")
