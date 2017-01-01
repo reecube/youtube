@@ -16,7 +16,7 @@ class GoogleOAuthController extends BaseController
      */
     public function getAuthenticationCodeAction()
     {
-        if ($this->isLocal()) {
+        if (true || $this->isLocal()) {
             $this->setAccessToken([
                 'access_token' => self::ACCESS_TOKEN_FAKE_TOKEN,
                 'token_type' => 'Bearer',
