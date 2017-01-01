@@ -60,7 +60,9 @@ class ViewController extends BaseController
      */
     public function sessionAction(Request $request)
     {
-        if ($request->isMethod('POST')) {
+        $isLocal = $this->isLocal();
+
+        if ($isLocal && $request->isMethod('POST')) {
             $accessToken = $request->get('accessToken', null);
 
             if ($accessToken !== null) {
@@ -89,6 +91,7 @@ class ViewController extends BaseController
             Pages::KEY_IS_LINK => false,
             Pages::KEY_ACCESS => Access::ACCESS_HIDDEN,
         ], [
+            'isLocal' => $isLocal,
             'accessTokenJson' => $googleSession === null ? '' : json_encode($googleSession),
         ]));
     }
