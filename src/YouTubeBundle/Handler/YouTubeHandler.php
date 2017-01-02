@@ -86,16 +86,20 @@ class YouTubeHandler
 
     /**
      * @param array $accessToken
+     * @param bool $forceRefresh
      * @return array|null the new access token or null if there is no access token
      */
-    public function authorize(array $accessToken)
+    public function authorize(array $accessToken, $forceRefresh = false)
     {
         $this->client->setAccessToken($accessToken);
 
-        $valid = self::isAccessTokenValid($accessToken);
 
-        if ($valid) {
-            return $accessToken;
+        if (!$forceRefresh) {
+            $valid = self::isAccessTokenValid($accessToken);
+
+            if ($valid) {
+                return $accessToken;
+            }
         }
 
         if (!isset($accessToken['refresh_token'])) {
