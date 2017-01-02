@@ -106,6 +106,10 @@ class YouTubeHandler
             return null;
         }
 
-        return $this->client->fetchAccessTokenWithRefreshToken();
+        $newAccessToken = $this->client->fetchAccessTokenWithRefreshToken();
+
+        $newAccessToken['refresh_token'] = $accessToken['refresh_token'];
+
+        return $newAccessToken;
     }
 }
