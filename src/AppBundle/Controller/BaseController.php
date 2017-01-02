@@ -13,28 +13,6 @@ use YouTubeBundle\Model\GoogleApiCredentials;
 abstract class BaseController extends Controller
 {
     /**
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|array|null
-     */
-    public function getGoogleSessionOrRedirect()
-    {
-        $accessToken = $this->getGoogleSession();
-
-        if ($accessToken === null) {
-            return $accessToken;
-        }
-
-        $valid = YouTubeHandler::isAccessTokenValid($accessToken);
-
-        if ($valid) {
-            return $accessToken;
-        }
-
-        $this->setAccessToken();
-
-        return $this->redirectToRoute('login');
-    }
-
-    /**
      * @return array|null
      */
     public function getGoogleSession()
@@ -211,8 +189,6 @@ abstract class BaseController extends Controller
      */
     public function checkAccessOrRedirect(array $page)
     {
-        $this->getGoogleSessionOrRedirect();
-
         $userAccess = $this->getUserAccess();
 
         if (!Access::hasAccess($page[Pages::KEY_ACCESS], $userAccess)) {

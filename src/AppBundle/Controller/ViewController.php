@@ -103,7 +103,7 @@ class ViewController extends BaseController
      */
     public function loginAction(Request $request)
     {
-        $googleSession = $this->getGoogleSessionOrRedirect();
+        $googleSession = $this->getGoogleSession();
 
         if ($googleSession !== null) {
 
@@ -152,9 +152,11 @@ class ViewController extends BaseController
 
         $handler = new YouTubeHandler($this->getCredentials());
 
-        $valid = $handler->authorize($this->getGoogleSession());
+        $accessToken = $handler->authorize($this->getGoogleSession());
 
-        if (!$valid) {
+        $this->setAccessToken($accessToken);
+
+        if ($accessToken === null) {
             return $this->redirectToRoute('login');
         }
 
